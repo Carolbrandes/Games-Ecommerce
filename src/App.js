@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Produtos from './pages/Produtos';
+import Checkout from './pages/Checkout';
+import Header from './components/Header/Header';
+import styled from 'styled-components';
 
 function App() {
+  const App = styled.main`
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    background-color: #eff1f3;
+  `
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <App>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Produtos />} />
+          <Route exact path="/checkout" element={<Checkout />} />
+        </Routes>
+
+        <Header />
+      </BrowserRouter>
+    </App>
   );
 }
 
