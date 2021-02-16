@@ -5,36 +5,54 @@ import { Container, Row, Col, Button } from 'reactstrap';
 
 
 const Checkout = () => {
-    const { itensCarrinho, setitensCarrinho, valorFrete, setValorFrete } = React.useContext(GlobalContext);
+    const { itensCarrinho, setitensCarrinho, valorFrete, setValorFrete, valorSubTotal, setValorSubTotal } = React.useContext(GlobalContext);
 
+    
     const calculaFrete = (itensCarrinho, setValorFrete) => {
-        let frete = itensCarrinho.reduce((acc, atual) => {
-            if (!atual.quantidade) {
-                atual = 1;
-            }
-
-            return acc + atual.quantidade * 10;
-        }, 0);
-
+        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
+        let frete = itensCarrinho.reduce((acc, atual) => acc + (atual.quantidade * atual.price) * 10, 0);
         frete >= 250 ? setValorFrete(0) : setValorFrete(frete);
-
     }
 
+    const calculaSubTotal = (itensCarrinho, setValorSubTotal) => {
+        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
+        console.log(itensCarrinho);
+
+        let subtotal = itensCarrinho.reduce((acc, atual) => acc + atual.quantidade * atual.price, 0);
+
+        setValorSubTotal(subtotal);
+    }
+
+    React.useEffect(() => {
+        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
+    }, []);
+
+  
     React.useEffect(() => {
         calculaFrete(itensCarrinho, setValorFrete);
     }, []);
 
     React.useEffect(() => {
         calculaFrete(itensCarrinho, setValorFrete);
-    }, [itensCarrinho, valorFrete])
+    }, [itensCarrinho, valorFrete]);
+
+    React.useEffect(() => {
+        calculaSubTotal(itensCarrinho, setValorSubTotal);
+    }, []);
+
+    React.useEffect(() => {
+        calculaSubTotal(itensCarrinho, setValorSubTotal);
+    }, [itensCarrinho, valorFrete]);
 
 
     const addQtd = (id, itensCarrinho) => {
         setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id == id).quantidade += 1])
+        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
     }
 
     const removeQtd = (id, itensCarrinho) => {
         setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id == id).quantidade -= 1])
+        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
     }
 
 
@@ -88,6 +106,7 @@ const Checkout = () => {
                         ))}
 
                         {valorFrete ? <p>Valor do Frete: R$ {valorFrete}</p> : <p>Valor do Frete: Grátis</p>}
+                        {valorSubTotal && <p>Subtotal: R$ {valorSubTotal}</p>}
 
                     </>
 
