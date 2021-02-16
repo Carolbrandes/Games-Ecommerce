@@ -5,9 +5,37 @@ import { Container, Row, Col, Button } from 'reactstrap';
 
 
 const Checkout = () => {
-    const [valorFrete, setValorFrete] = React.useState(null);
-    const { itensCarrinho, setitensCarrinho } = React.useContext(GlobalContext);
-    console.log(itensCarrinho);
+    const { itensCarrinho, setitensCarrinho, valorFrete, setValorFrete } = React.useContext(GlobalContext);
+
+    const calculaFrete = (itensCarrinho, setValorFrete) => {
+        let frete = itensCarrinho.reduce((acc, atual) => {
+            if (!atual.quantidade) {
+                atual = 1;
+            }
+
+            return acc + atual.quantidade * 10;
+        }, 0);
+
+        frete >= 250 ? setValorFrete(0) : setValorFrete(frete);
+
+    }
+
+    React.useEffect(() => {
+        calculaFrete(itensCarrinho, setValorFrete);
+    }, []);
+
+    React.useEffect(() => {
+        calculaFrete(itensCarrinho, setValorFrete);
+    }, [itensCarrinho, valorFrete])
+
+
+    const addQtd = (id, itensCarrinho) => {
+        setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id == id).quantidade += 1])
+    }
+
+    const removeQtd = (id, itensCarrinho) => {
+        setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id == id).quantidade -= 1])
+    }
 
 
     const CheckoutWrapper = styled.section`
@@ -21,8 +49,6 @@ const Checkout = () => {
             color: #333;
         }
     `
-
-  
 
     return (
         <CheckoutWrapper>
@@ -43,7 +69,7 @@ const Checkout = () => {
                                         className="mr-2"
                                         onClick={(event) => {
                                             event.preventDefault();
-                                            setitensCarrinho([...itensCarrinho, item.quantidade = item.quantidade + 1])
+                                            addQtd(item.id, itensCarrinho);
                                         }}>
                                         +
                                         </button>
@@ -51,7 +77,7 @@ const Checkout = () => {
                                     <button
                                         onClick={(event) => {
                                             event.preventDefault();
-                                            setitensCarrinho([...itensCarrinho, item.quantidade = item.quantidade - 1])
+                                            removeQtd(item.id, itensCarrinho);
                                         }}
                                     >-
                                 </button>
@@ -61,7 +87,7 @@ const Checkout = () => {
                             </div>
                         ))}
 
-                        {valorFrete  && <p>Frete: {valorFrete}</p> } 
+                        {valorFrete ? <p>Valor do Frete: R$ {valorFrete}</p> : <p>Valor do Frete: Grátis</p>}
 
                     </>
 

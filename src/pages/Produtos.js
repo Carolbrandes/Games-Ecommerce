@@ -24,24 +24,26 @@ const Produtos = () => {
 
     const handleClickAdd = (event, produto) => {
         event.preventDefault();
-    
+
         const adicionarNoCarrinho = (produto) => {
             setitensCarrinho([...itensCarrinho, produto]);
         }
-    
+
         if (itensCarrinho.some(item => item.id === produto.id)) {
             console.log("ja tem esse produto");
             setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id === produto.id).quantidade += 1]);
-    
+
         } else {
             console.log("Produto novo");
             produto.quantidade = 1;
-            adicionarNoCarrinho(produto);
+
+            adicionarNoCarrinho(produto)
+
         }
-    
+
         console.log(itensCarrinho);
     }
-    
+
 
 
 
@@ -120,7 +122,7 @@ const Produtos = () => {
                                 <h2>{prod.name}</h2>
                                 <p>R$ {prod.price}</p>
 
-                                <button className="adicionar mr-2" onClick={(event) => handleClickAdd(event, prod, itensCarrinho, setitensCarrinho )}>Comprar</button>
+                                <button className="adicionar mr-2" onClick={(event) => handleClickAdd(event, prod, itensCarrinho, setitensCarrinho)}>Comprar</button>
 
                             </div>
                         </Col>
