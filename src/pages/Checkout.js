@@ -5,55 +5,71 @@ import { Container, Row, Col, Button } from 'reactstrap';
 
 
 const Checkout = () => {
-    const { itensCarrinho, setitensCarrinho, valorFrete, setValorFrete, valorSubTotal, setValorSubTotal } = React.useContext(GlobalContext);
+    const { itensCarrinho, setitensCarrinho, valorFrete, setValorFrete, valorSubTotal, setValorSubTotal, valorTotal, setValorTotal } = React.useContext(GlobalContext);
 
-    
-    const calculaFrete = (itensCarrinho, setValorFrete) => {
-        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
-        let frete = itensCarrinho.reduce((acc, atual) => acc + (atual.quantidade * atual.price) * 10, 0);
-        frete >= 250 ? setValorFrete(0) : setValorFrete(frete);
+
+    function calculaFrete(itensCarrinho, setValorFrete) {
+        let valor = itensCarrinho.reduce((acc, atual) => {
+            if (atual.quantidade * atual.price >= 250) {
+                return 0;
+            } else {
+                let v = acc + atual.quantidade * 10;
+
+                if (v >= 250) {
+                    return 0;
+                } else {
+                    return v;
+                }
+            }
+        }, 0);
+
+        setValorFrete(valor);
     }
 
-    const calculaSubTotal = (itensCarrinho, setValorSubTotal) => {
-        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
+
+    function calculaSubTotal(itensCarrinho, setValorSubTotal) {
         console.log(itensCarrinho);
-
         let subtotal = itensCarrinho.reduce((acc, atual) => acc + atual.quantidade * atual.price, 0);
-
         setValorSubTotal(subtotal);
     }
 
-    React.useEffect(() => {
-        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
-    }, []);
-
-  
-    React.useEffect(() => {
-        calculaFrete(itensCarrinho, setValorFrete);
-    }, []);
-
-    React.useEffect(() => {
-        calculaFrete(itensCarrinho, setValorFrete);
-    }, [itensCarrinho, valorFrete]);
-
-    React.useEffect(() => {
-        calculaSubTotal(itensCarrinho, setValorSubTotal);
-    }, []);
-
-    React.useEffect(() => {
-        calculaSubTotal(itensCarrinho, setValorSubTotal);
-    }, [itensCarrinho, valorFrete]);
+    function calcularTotal(valorFrete, valorSubTotal, setValorTotal) {
+        setValorTotal(valorFrete + valorSubTotal)
+    }
 
 
     const addQtd = (id, itensCarrinho) => {
-        setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id == id).quantidade += 1])
-        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
+        setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id === id).quantidade += 1])
+        
+        calculaFrete(itensCarrinho, setValorFrete);
+        calculaSubTotal(itensCarrinho, setValorSubTotal);
+        calcularTotal(valorFrete, valorSubTotal, setValorTotal);
     }
 
     const removeQtd = (id, itensCarrinho) => {
-        setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id == id).quantidade -= 1])
-        setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
+        setitensCarrinho([...itensCarrinho, itensCarrinho.find(item => item.id === id).quantidade -= 1])
+      
+        calculaFrete(itensCarrinho, setValorFrete);
+        calculaSubTotal(itensCarrinho, setValorSubTotal);
+        calcularTotal(valorFrete, valorSubTotal, setValorTotal);
     }
+
+    React.useEffect(() => {
+        itensCarrinho.lenght  !== 0 && setitensCarrinho(itensCarrinho.filter(item => 'id' in item));
+    }, []);
+
+    
+    React.useEffect(() => {
+        calculaFrete(itensCarrinho, setValorFrete);
+    }, []);
+
+    React.useEffect(() => {
+        calculaSubTotal(itensCarrinho, setValorSubTotal);
+    }, []);
+
+    React.useEffect(() => {
+        calcularTotal(valorFrete, valorSubTotal, setValorTotal);
+    }, []);
 
 
     const CheckoutWrapper = styled.section`
@@ -107,9 +123,9 @@ const Checkout = () => {
 
                         {valorFrete ? <p>Valor do Frete: R$ {valorFrete}</p> : <p>Valor do Frete: Grátis</p>}
                         {valorSubTotal && <p>Subtotal: R$ {valorSubTotal}</p>}
+                        <p>Total: R${valorFrete + valorSubTotal}</p>
 
                     </>
-
 
                     :
                     <p>Sacola Vazia</p>

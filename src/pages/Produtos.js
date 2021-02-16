@@ -118,7 +118,7 @@ const Produtos = () => {
                         <Col md="4" key={prod.id} >
                             <div className="produto d-flex flex-column align-items-center p-3 mb-5">
                                 <span>{prod.score} <FaStar color="#f46036" size="20" /></span>
-                                <img src={`./assets/${prod.image}`} className="img-fluid mt-5 mb-3" />
+                                <img src={`./assets/${prod.image}`} alt={prod.name} className="img-fluid mt-5 mb-3" />
                                 <h2>{prod.name}</h2>
                                 <p>R$ {prod.price}</p>
 
