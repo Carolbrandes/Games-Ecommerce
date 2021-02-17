@@ -18,7 +18,15 @@ const Header = () => {
         padding-top: 20px;
         padding-bottom: 20px;
         background-color: #fff;
-    `
+
+        .logo{
+            transition: .3s;
+
+            &:hover{
+               text-decoration: none;
+            }
+        }    
+    `;
 
     const QtdItems = styled.div`
         width: 40px;
@@ -34,7 +42,7 @@ const Header = () => {
         justify-content: center;
         align-items: center;
         font-weight: bold;
-    `
+    `;
 
     return (
         <Header>
@@ -42,12 +50,12 @@ const Header = () => {
                 <nav>
                     <Row className="justify-content-between">
                         <Col sm="5">
-                            <Link to="/"><Logo /></Link>
+                            <Link className="logo" to="/"><Logo /></Link>
                         </Col>
 
                         <Col className="position-relative" sm="1">
                             <Link to="/checkout"><FaShoppingCart color="#002642" size="70%" /></Link>
-                            <QtdItems>{itensCarrinho.length}</QtdItems>
+                            <QtdItems>{itensCarrinho && itensCarrinho.length}</QtdItems>
                         </Col>
                     </Row>
                 </nav>

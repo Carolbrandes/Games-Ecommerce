@@ -9,6 +9,10 @@ function App() {
     font-family: Arial, Helvetica, sans-serif;
     min-height: 100vh;
     background-color: #eff1f3;
+
+    :root{
+      -primary: #002642;
+    }
   `
   return (
     <App>
