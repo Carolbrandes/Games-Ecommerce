@@ -5,26 +5,19 @@ import styled from 'styled-components';
 import { FaStar, FaShoppingCart } from 'react-icons/fa';
 
 const Produto = ({ id, name, price, score, image }) => {
-    let [quantidade, setQuantidade] = React.useState(0);
-    const [produto, setProduto] = React.useState({});
-    const { itensCarrinho, setitensCarrinho } = React.useContext(GlobalContext);
-
+    const { produtos, setProdutos, itensCarrinho, setitensCarrinho } = React.useContext(GlobalContext);
 
     function handleClick(event) {
         event.preventDefault();
-        setQuantidade(quantidade++);
-        setProduto({ id, name, price, image, quantidade });
-        console.log(produto.name);
-        console.log(produto.quantidade);
+        
+        let produtoSelecionado = itensCarrinho.find(item => item.id == id);
 
-        setitensCarrinho([...itensCarrinho, produto]);
-
-        console.log("Itens Carrinho:");
-        itensCarrinho.forEach(item => {
-            console.log(item.name);
-            console.log(item.quantidade);
-        })
-
+        if(produtoSelecionado){
+            setitensCarrinho([...itensCarrinho, produtoSelecionado.quantidade += 1]);
+        }else{
+            setitensCarrinho([...itensCarrinho, {id, name, price, image, quantidade: 1}])
+        }
+      
     }
 
 
@@ -95,8 +88,7 @@ const Produto = ({ id, name, price, score, image }) => {
             <h2>{name}</h2>
             <p>R$ {price}</p>
 
-            {quantidade}
-
+        
             <Col className="pt-3" xs="12" md="10">
                 <Button className="d-flex justify-content-center align-items-center"
                     onClick={handleClick}>
