@@ -9,7 +9,9 @@ import { GlobalContext } from '../../GlobalStore';
 const Header = () => {
     const { itensCarrinho, qtdItensCarrinho, setQtdItensCarrinho } = React.useContext(GlobalContext);
    
-    
+    React.useEffect(() =>{
+      setQtdItensCarrinho(itensCarrinho.filter(item => typeof item !== "number" && item.quantidade > 0).reduce((acc, curr) => acc + curr.quantidade, 0));
+    }, [itensCarrinho])
 
     const Header = styled.header`
         width: 100%;
