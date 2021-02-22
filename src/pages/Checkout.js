@@ -8,16 +8,20 @@ const Checkout = () => {
     const { itensCarrinho, setitensCarrinho, valorFrete, setValorFrete, valorSubTotal, setValorSubTotal, valorTotal, setValorTotal } = React.useContext(GlobalContext);
 
     React.useEffect(() => {
-       setValorSubTotal(itensCarrinho.filter(item => typeof item !== "number" && item.quantidade > 0).reduce((acc, curr) => acc + curr.price * curr.quantidade, 0));
+        setValorSubTotal(itensCarrinho.filter(item => typeof item !== "number" && item.quantidade > 0).reduce((acc, curr) => acc + curr.price * curr.quantidade, 0));
     }, [itensCarrinho]);
 
     React.useEffect(() => {
-       if(valorSubTotal >= 250){
-           setValorFrete(0);
-       } else{
-           setValorFrete(itensCarrinho.filter(item => typeof item !== "number" && item.quantidade > 0).reduce((acc, curr) => acc + curr.quantidade * 10, 0))
-       }
+        if (valorSubTotal >= 250) {
+            setValorFrete(0);
+        } else {
+            setValorFrete(itensCarrinho.filter(item => typeof item !== "number" && item.quantidade > 0).reduce((acc, curr) => acc + curr.quantidade * 10, 0))
+        }
     }, [itensCarrinho, valorSubTotal]);
+
+    React.useEffect(
+        () => setValorTotal(valorFrete + valorSubTotal)
+        , [valorFrete, valorSubTotal]);
 
 
     const Checkout = styled.main`
@@ -46,33 +50,33 @@ const Checkout = () => {
         <Checkout>
             <Container>
                 <Row>
-                    {itensCarrinho.length > 0 ? 
-                    itensCarrinho
-                        .filter(item => typeof item !== 'number' && item.quantidade > 0)
-                        .map(({ id, name, price, image, quantidade }) =>
+                    {itensCarrinho.length > 0 ?
+                        itensCarrinho
+                            .filter(item => typeof item !== 'number' && item.quantidade > 0)
+                            .map(({ id, name, price, image, quantidade }) =>
 
-                    (
-                        <Col className="d-flex justify-content-around align-items-center p-2 itens-carrinho mb-3" xs="12" key={id}>
-                            <Col md="2"> <img className="img-fluid" src={`./assets/${image}`} alt="#" /></Col>
-                            <Col md="3"><p>{name}</p></Col>
-                            <Col md="3">
-                                <div className="d-flex">
-                                    <BotaoQtd className="mr-3" onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade - 1])}>-</BotaoQtd>
-                                    <p>{quantidade}</p>
-                                    <BotaoQtd onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade + 1])} className="ml-3">+</BotaoQtd>
-                                </div>
-                            </Col>
-                            <Col md="2"><p>R$ {price}</p></Col>
-                            <Col md="2"> <p>R$ {price * quantidade}</p></Col>
-                        </Col>
-                    ))
+                            (
+                                <Col className="d-flex justify-content-around align-items-center p-2 itens-carrinho mb-3" xs="12" key={id}>
+                                    <Col md="2"> <img className="img-fluid" src={`./assets/${image}`} alt="#" /></Col>
+                                    <Col md="3"><p>{name}</p></Col>
+                                    <Col md="3">
+                                        <div className="d-flex">
+                                            <BotaoQtd className="mr-3" onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade - 1])}>-</BotaoQtd>
+                                            <p>{quantidade}</p>
+                                            <BotaoQtd onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade + 1])} className="ml-3">+</BotaoQtd>
+                                        </div>
+                                    </Col>
+                                    <Col md="2"><p>R$ {price}</p></Col>
+                                    <Col md="2"> <p>R$ {price * quantidade}</p></Col>
+                                </Col>
+                            ))
 
                         :
                         <p>Carrinho vazio</p>
                     }
                 </Row>
 
-                <Col  md="6">
+                <Col md="6">
                     <p>Subtotal: R$ {valorSubTotal}</p>
                     <p>Frete: R$ {valorFrete}</p>
                     <p>Total: R$ {valorTotal}</p>
