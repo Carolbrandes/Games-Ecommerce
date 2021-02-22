@@ -7,8 +7,9 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { GlobalContext } from '../../GlobalStore';
 
 const Header = () => {
-    const { itensCarrinho } = React.useContext(GlobalContext);
-
+    const { itensCarrinho, qtdItensCarrinho, setQtdItensCarrinho } = React.useContext(GlobalContext);
+   
+    
 
     const Header = styled.header`
         width: 100%;
@@ -55,7 +56,7 @@ const Header = () => {
 
                         <Col className="position-relative" sm="1">
                             <Link to="/checkout"><FaShoppingCart color="#002642" size="70%" /></Link>
-                            <QtdItems>{itensCarrinho && itensCarrinho.filter(item => typeof item !== 'number' && item.quantidade > 0).length}</QtdItems>
+                            <QtdItems>{qtdItensCarrinho}</QtdItems>
                         </Col>
                     </Row>
                 </nav>

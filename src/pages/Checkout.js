@@ -14,10 +14,6 @@ const Checkout = () => {
         .itens-carrinho{
             background-color: #fff;
         }
-
-        img{
-            width: 10%;
-        }
     `;
 
     const BotaoQtd = styled.span`
@@ -42,14 +38,17 @@ const Checkout = () => {
 
                     (
                         <Col className="d-flex justify-content-around align-items-center p-2 itens-carrinho mb-3" xs="12" key={id}>
-                            <img src={`./assets/${image}`} alt="#" />
-                            <p>{name}</p>
-                            <div className="d-flex">
-                                <BotaoQtd className="mr-3" onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade - 1])}>-</BotaoQtd>
-                                <p>{quantidade}</p>
-                                <BotaoQtd onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id ).quantidade = quantidade + 1])} className="ml-3">+</BotaoQtd>
-                            </div>
-                            <p>R$ {price}</p>
+                            <Col md="2"> <img className="img-fluid" src={`./assets/${image}`} alt="#" /></Col>
+                            <Col md="3"><p>{name}</p></Col>
+                            <Col md="3">
+                                <div className="d-flex">
+                                    <BotaoQtd className="mr-3" onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade - 1])}>-</BotaoQtd>
+                                    <p>{quantidade}</p>
+                                    <BotaoQtd onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade + 1])} className="ml-3">+</BotaoQtd>
+                                </div>
+                            </Col>
+                            <Col md="2"><p>R$ {price}</p></Col>
+                            <Col md="2"> <p>R$ {price * quantidade}</p></Col>
                         </Col>
                     )
 

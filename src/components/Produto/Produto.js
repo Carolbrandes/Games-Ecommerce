@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { FaStar, FaShoppingCart } from 'react-icons/fa';
 
 const Produto = ({ id, name, price, score, image }) => {
-    const { produtos, setProdutos, itensCarrinho, setitensCarrinho } = React.useContext(GlobalContext);
+    const { itensCarrinho, setitensCarrinho } = React.useContext(GlobalContext);
 
     function handleClick(event) {
         event.preventDefault();
@@ -16,8 +16,7 @@ const Produto = ({ id, name, price, score, image }) => {
             setitensCarrinho([...itensCarrinho, produtoSelecionado.quantidade += 1]);
         }else{
             setitensCarrinho([...itensCarrinho, {id, name, price, image, quantidade: 1}])
-        }
-      
+        } 
     }
 
 
