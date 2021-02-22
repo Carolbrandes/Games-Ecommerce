@@ -37,9 +37,9 @@ const Checkout = () => {
                             <img src={`./assets/${image}`} alt="#" />
                             <p>{name}</p>
                             <div className="d-flex">
-                                <BotaoQtd className="mr-3" onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id )])}>-</BotaoQtd>
+                                <BotaoQtd className="mr-3" onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id).quantidade = quantidade - 1])}>-</BotaoQtd>
                                 <p>{quantidade}</p>
-                                <BotaoQtd onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id )])} className="ml-3">+</BotaoQtd>
+                                <BotaoQtd onClick={() => setitensCarrinho([...itensCarrinho, itensCarrinho.find(i => i.id == id ).quantidade = quantidade + 1])} className="ml-3">+</BotaoQtd>
                             </div>
                             <p>R$ {price}</p>
                         </Col>
