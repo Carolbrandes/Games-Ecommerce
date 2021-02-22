@@ -93,7 +93,7 @@ const Checkout = () => {
                     }
                 </Row>
 
-                <Col className="resumo p-4 mt-4" md={{size: 4, offset: 8}}>
+                <Col className="resumo p-4 mt-4" xs="12" md={{size: 4, offset: 8}}>
                     <p className="pb-3"><b>Subtotal:</b> R$ {valorSubTotal}</p>
                     <p className="pb-3"><b>Frete:</b> R$ {valorFrete}</p>
                     <p><b>Total:</b> R$ {valorTotal}</p>
