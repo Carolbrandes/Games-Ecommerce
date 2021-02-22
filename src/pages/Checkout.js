@@ -1,7 +1,7 @@
 import React from 'react';
 import { GlobalContext } from '../GlobalStore';
 import styled from 'styled-components';
-import { Container, Row, Col, FormGroup, Input } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 
 const Checkout = () => {
@@ -10,6 +10,14 @@ const Checkout = () => {
 
     const Checkout = styled.main`
         padding-top: 250px;
+
+        .itens-carrinho{
+            background-color: #fff;
+        }
+
+        img{
+            width: 10%;
+        }
     `;
 
     const BotaoQtd = styled.span`
@@ -33,7 +41,7 @@ const Checkout = () => {
                     {itensCarrinho.length > 0 ? itensCarrinho.filter(item => typeof item !== 'number' && item.quantidade > 0).map(({ id, name, price, image, quantidade }) =>
 
                     (
-                        <Col className="d-flex justify-content-around align-items-center" md="8" key={id}>
+                        <Col className="d-flex justify-content-around align-items-center p-2 itens-carrinho mb-3" xs="12" key={id}>
                             <img src={`./assets/${image}`} alt="#" />
                             <p>{name}</p>
                             <div className="d-flex">

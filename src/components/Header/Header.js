@@ -55,7 +55,7 @@ const Header = () => {
 
                         <Col className="position-relative" sm="1">
                             <Link to="/checkout"><FaShoppingCart color="#002642" size="70%" /></Link>
-                            <QtdItems>{itensCarrinho && itensCarrinho.length}</QtdItems>
+                            <QtdItems>{itensCarrinho && itensCarrinho.filter(item => typeof item !== 'number' && item.quantidade > 0).length}</QtdItems>
                         </Col>
                     </Row>
                 </nav>
