@@ -7,6 +7,18 @@ import { Container, Row, Col } from 'reactstrap';
 const Checkout = () => {
     const { itensCarrinho, setitensCarrinho, valorFrete, setValorFrete, valorSubTotal, setValorSubTotal, valorTotal, setValorTotal } = React.useContext(GlobalContext);
 
+    React.useEffect(() => {
+       setValorSubTotal(itensCarrinho.filter(item => typeof item !== "number" && item.quantidade > 0).reduce((acc, curr) => acc + curr.price * curr.quantidade, 0));
+    }, [itensCarrinho]);
+
+    React.useEffect(() => {
+       if(valorSubTotal >= 250){
+           setValorFrete(0);
+       } else{
+           setValorFrete(itensCarrinho.filter(item => typeof item !== "number" && item.quantidade > 0).reduce((acc, curr) => acc + curr.quantidade * 10, 0))
+       }
+    }, [itensCarrinho, valorSubTotal]);
+
 
     const Checkout = styled.main`
         padding-top: 250px;
@@ -34,7 +46,10 @@ const Checkout = () => {
         <Checkout>
             <Container>
                 <Row>
-                    {itensCarrinho.length > 0 ? itensCarrinho.filter(item => typeof item !== 'number' && item.quantidade > 0).map(({ id, name, price, image, quantidade }) =>
+                    {itensCarrinho.length > 0 ? 
+                    itensCarrinho
+                        .filter(item => typeof item !== 'number' && item.quantidade > 0)
+                        .map(({ id, name, price, image, quantidade }) =>
 
                     (
                         <Col className="d-flex justify-content-around align-items-center p-2 itens-carrinho mb-3" xs="12" key={id}>
@@ -50,13 +65,18 @@ const Checkout = () => {
                             <Col md="2"><p>R$ {price}</p></Col>
                             <Col md="2"> <p>R$ {price * quantidade}</p></Col>
                         </Col>
-                    )
+                    ))
 
-                    )
                         :
                         <p>Carrinho vazio</p>
                     }
                 </Row>
+
+                <Col  md="6">
+                    <p>Subtotal: R$ {valorSubTotal}</p>
+                    <p>Frete: R$ {valorFrete}</p>
+                    <p>Total: R$ {valorTotal}</p>
+                </Col>
             </Container>
         </Checkout>
     )
