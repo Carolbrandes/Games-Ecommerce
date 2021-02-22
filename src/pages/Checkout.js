@@ -29,6 +29,21 @@ const Checkout = () => {
 
         .itens-carrinho{
             background-color: #fff;
+            border-radius: 10px;
+        }
+
+        .resumo{
+            background-color: #002642;
+            color: #fff;
+            border-radius: 10px;
+
+            p{
+                border-bottom: 1px solid #fff;
+            }
+
+            & p:last-of-type{
+                border-bottom: none;
+            }
         }
     `;
 
@@ -72,14 +87,16 @@ const Checkout = () => {
                             ))
 
                         :
-                        <p>Carrinho vazio</p>
+                       <Col className="itens-carrinho p-2" xs="12">
+                            <p>Carrinho vazio</p>
+                       </Col>
                     }
                 </Row>
 
-                <Col md="6">
-                    <p>Subtotal: R$ {valorSubTotal}</p>
-                    <p>Frete: R$ {valorFrete}</p>
-                    <p>Total: R$ {valorTotal}</p>
+                <Col className="resumo p-4 mt-4" md={{size: 4, offset: 8}}>
+                    <p className="pb-3"><b>Subtotal:</b> R$ {valorSubTotal}</p>
+                    <p className="pb-3"><b>Frete:</b> R$ {valorFrete}</p>
+                    <p><b>Total:</b> R$ {valorTotal}</p>
                 </Col>
             </Container>
         </Checkout>
